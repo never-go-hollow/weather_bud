@@ -1,13 +1,18 @@
+import PIL
+import requests
 from PIL import Image
-from datetime import date
+from bs4 import BeautifulSoup
 import urllib.request
 
-# Import actual time and format it appropriately
-import_time = date.today()
-formatted_time = str(import_time.strftime("%Y%m%d"))
+# Scrape dat ugly-ass dynamic image link huh
+page = requests.get('https://m.meteo.pl/gdynia/60')
+soup = BeautifulSoup(page.text, 'html.parser')
+images = []
+for img in soup.findAll('img'):
+    images.append(img.get('src'))
 
-# Download images and crop 'em
-date = "https://www.meteo.pl/um/metco/mgram_pict.php?ntype=0u&fdate=" + formatted_time + "12&row=342&col=208&lang=pl"
+# Download mentioned image and slice it
+date = images[2]
 urllib.request.urlretrieve(date, "pogoda.png")
 obraz = Image.open("./pogoda.png")
 crop_opady = obraz.crop((68,143,495+68,80+143))
