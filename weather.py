@@ -17,20 +17,20 @@ for img in soup.findAll('img'):
 
 # Download mentioned image and slice it
 date = images[2]
-urllib.request.urlretrieve(date, "pogoda.png")
-obraz = Image.open("./pogoda.png")
-crop_opady = obraz.crop((38,143,695+88,80+143))
-crop_temperatura = obraz.crop((38,55,695+88,78+60))
-crop_timeline = obraz.crop((68,27,665+88,21+37))
-crop_timeline_bot = obraz.crop((68,27,665+88,1231+27))
+urllib.request.urlretrieve(date, "weather_full.png")
+image = Image.open("./weather_full.png")
+crop_precipitation = image.crop((38,143,695+88,80+143))
+crop_temperature = image.crop((38,55,695+88,78+60))
+crop_timeline = image.crop((68,27,665+88,21+37))
+crop_timeline_bot = image.crop((68,27,665+88,1231+27))
 
 # Read token from secrets.conf
 with open('secrets.conf', 'r') as file:
     token = file.read().replace('\n', '')
 
 # Save all cropped images
-crop_opady.save("cropped_opady" + ".png")
-crop_temperatura.save("cropped_temperatura" + ".png")
+crop_precipitation.save("cropped_precipitation" + ".png")
+crop_temperature.save("cropped_temperature" + ".png")
 crop_timeline.save("cropped_timeline" + ".png")
 crop_timeline_bot.save("cropped_timeline_bot" + ".png")
 
@@ -40,22 +40,16 @@ with urllib.request.urlopen(air_quality_url) as url:
     air_quality_text = json.loads(url.read().decode())['data']['aqi']
 
 # Check the range that current air quality index lies within
-r1 = range(0, 50)
-r2 = range(51, 100)
-r3 = range(101, 150)
-r4 = range(151-200)
-r5 = range(201-300)
-
 def check_aqi(aqt):
-    if aqt in r1:
+    if aqt in range(0, 50):
         return city_aqi.good
-    elif aqt in r2:
+    elif aqt in range(51, 100):
         return city_aqi.moderate
-    elif aqt in r3:
+    elif aqt in range(101, 150):
         return city_aqi.unhealthy
-    elif aqt in r4:
+    elif aqt in range(151-200):
         return city_aqi.very_unhealthy
-    elif aqt in r5:
+    elif aqt in range(201-300):
         return city_aqi.poor
     else:
         return city_aqi.hazardous
@@ -69,13 +63,13 @@ window.geometry("740x370")
 window.title("WeatherBud")
 
 img_time = "cropped_timeline.png"
-img_temp = "cropped_temperatura.png"
-img_opady = "cropped_opady.png"
+img_temperature = "cropped_temperature.png"
+img_precipitation = "cropped_precipitation.png"
 img_temp_bot = "cropped_timeline_bot.png"
 
 img = ImageTk.PhotoImage(Image.open(img_time))
-img2 = ImageTk.PhotoImage(Image.open(img_temp))
-img3 = ImageTk.PhotoImage(Image.open(img_opady))
+img2 = ImageTk.PhotoImage(Image.open(img_temperature))
+img3 = ImageTk.PhotoImage(Image.open(img_precipitation))
 img4 = ImageTk.PhotoImage(Image.open(img_temp_bot))
 
 aqi_panel = tk.Label(window, text = aqi_txt, height = 1)
