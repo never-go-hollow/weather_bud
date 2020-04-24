@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import PIL
 import requests
 import tkinter as tk
