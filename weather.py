@@ -77,10 +77,10 @@ img4 = ImageTk.PhotoImage(Image.open(img_temp_bot))
 aqi_panel = tk.Label(window, text = aqi_txt, height = 1).place(x=210, y=30)
 aqi_panel2 = tk.Label(window, text = aqi_txt_imported, height = 3).place(x=140, y=50)
 
-panel = tk.Label(window, image = img).place(x=100, y=120)
+panel = tk.Label(window, image = img).place(x=100, y=108)
 panel2 = tk.Label(window, image = img2).place(x=70, y=140)
 panel3 = tk.Label(window, image = img3).place(x=70, y=220)
-panel4 = tk.Label(window, image = img4).place(x=100, y=300)
+panel4 = tk.Label(window, image = img4).place(x=100, y=303)
 
 window.mainloop()
 
