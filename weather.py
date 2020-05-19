@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import PIL
 import requests
 import tkinter as tk
@@ -22,7 +24,7 @@ image = Image.open("./weather_full.png")
 crop_precipitation = image.crop((38,143,695+88,80+143))
 crop_temperature = image.crop((38,55,695+88,78+60))
 crop_timeline = image.crop((68,27,665+88,21+37))
-crop_timeline_bot = image.crop((68,27,665+88,1231+27))
+crop_timeline_bot = image.crop((68,605,665+88,605+27))
 
 # Read token from secrets.conf
 with open('secrets.conf', 'r') as file:
@@ -59,7 +61,7 @@ aqi_txt_imported = check_aqi(air_quality_text)
 
 # Tkinter, main window; import cropped images as 'widgets', import air quality data
 window = tk.Tk()
-window.geometry("740x370")
+window.geometry("670x380")
 window.title("WeatherBud")
 
 img_time = "cropped_timeline.png"
@@ -72,19 +74,13 @@ img2 = ImageTk.PhotoImage(Image.open(img_temperature))
 img3 = ImageTk.PhotoImage(Image.open(img_precipitation))
 img4 = ImageTk.PhotoImage(Image.open(img_temp_bot))
 
-aqi_panel = tk.Label(window, text = aqi_txt, height = 1)
-aqi_panel2 = tk.Label(window, text = aqi_txt_imported, height = 4)
-panel = tk.Label(window, image = img)
-panel2 = tk.Label(window, image = img2)
-panel3 = tk.Label(window, image = img3)
-panel4 = tk.Label(window, image = img4)
+aqi_panel = tk.Label(window, text = aqi_txt, height = 1).place(x=210, y=30)
+aqi_panel2 = tk.Label(window, text = aqi_txt_imported, height = 3).place(x=140, y=50)
 
-aqi_panel.pack()
-aqi_panel2.pack()
-panel.pack(side = "top", expand = "no")
-panel2.pack(side = "top", expand = "no")
-panel3.pack(side = "top", expand = "no")
-panel4.pack(side = "top", expand = "no")
+panel = tk.Label(window, image = img).place(x=100, y=120)
+panel2 = tk.Label(window, image = img2).place(x=70, y=140)
+panel3 = tk.Label(window, image = img3).place(x=70, y=220)
+panel4 = tk.Label(window, image = img4).place(x=100, y=300)
 
 window.mainloop()
 
